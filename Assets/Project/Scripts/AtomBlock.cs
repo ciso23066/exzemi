@@ -1,44 +1,40 @@
 using UnityEngine;
 
-public enum AtomType { Mg, O, MgO }
+public enum AtomType { Mg, O }
 
 public class AtomBlock : MonoBehaviour
 {
     public AtomType type;
-    public bool selected;
+    public int x, y;
 
-    Renderer rend;
+    private Vector3 originalScale;
+    private Renderer ren;
+    private Color originalColor;
 
-    void Start()
+    void Awake()
     {
-        rend = GetComponent<Renderer>();
-        UpdateColor();
+        ren = GetComponent<Renderer>();
+        originalScale = transform.localScale;
+        originalColor = ren.material.color;
     }
 
+    public void SetGridPosition(int x, int y)
+    {
+        this.x = x;
+        this.y = y;
+    }
+
+    // ëIëÇ≥ÇÍÇΩéûÇÃå©ÇΩñ⁄
     public void Select()
     {
-        selected = true;
-        rend.material.color = Color.yellow;
+        transform.localScale = originalScale * 1.2f;
+        ren.material.color = Color.yellow;
     }
 
+    // ëIëâèúÇ≥ÇÍÇΩéûÇÃå©ÇΩñ⁄
     public void Deselect()
     {
-        selected = false;
-        UpdateColor();
+        transform.localScale = originalScale;
+        ren.material.color = originalColor;
     }
-
-    void UpdateColor()
-    {
-        if (type == AtomType.Mg)
-            rend.material.color = Color.gray;
-
-        if (type == AtomType.O)
-            rend.material.color = Color.red;
-
-        if (type == AtomType.MgO)
-        {
-            // êeÇ»ÇÃÇ≈âΩÇ‡ÇµÇ»Ç¢
-        }
-    }
-
 }

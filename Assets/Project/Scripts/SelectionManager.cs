@@ -1,80 +1,132 @@
 using System.Collections.Generic;
 using UnityEngine;
+// Debugの衝突を防ぐ
+using Debug = UnityEngine.Debug;
 
 public class SelectionManager : MonoBehaviour
 {
+    public Camera mainCamera;
+    public LineRenderer lineRenderer; // インスペクターで割り当て
+
     private List<AtomBlock> selected = new List<AtomBlock>();
 
-    public GameObject mgOPrefab; // MgOプレハブ
+    void Start()
+    {
+        if (mainCamera == null) mainCamera = Camera.main;
+
+        // LineRendererの初期設定
+        if (lineRenderer != null)
+        {
+            lineRenderer.positionCount = 0;
+            lineRenderer.startWidth = 0.2f;
+            lineRenderer.endWidth = 0.2f;
+        }
+    }
 
     void Update()
     {
+        if (Input.GetMouseButtonDown(0))
+        {
+            ClearSelection();
+        }
+
         if (Input.GetMouseButton(0))
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out RaycastHit hit))
-            {
-                var atom = hit.collider.GetComponent<AtomBlock>();
-                if (atom != null && !selected.Contains(atom) && atom.type != AtomType.MgO)
-                {
-                    atom.Select();
-                    selected.Add(atom);
-                }
-            }
+            TrySelect();
         }
 
         if (Input.GetMouseButtonUp(0))
         {
             CheckReaction();
+            ClearSelection();
+        }
+
+        DrawSelectionLine();
+    }
+
+    void TrySelect()
+    {
+        Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit))
+        {
+            AtomBlock block = hit.collider.GetComponent<AtomBlock>();
+            if (block != null && !selected.Contains(block))
+            {
+                // 最初の一つ目、もしくは直前のものと隣接しているかチェック
+                if (selected.Count == 0 || IsAdjacent(block, selected[selected.Count - 1]))
+                {
+                    selected.Add(block);
+                    block.Select();
+                }
+            }
         }
     }
 
-    void CheckReaction()
+    bool IsAdjacent(AtomBlock a, AtomBlock b)
     {
-        int mg = 0, o = 0;
+        // Mathf.Abs は絶対値（距離）を計算します
+        int dx = Mathf.Abs(a.x - b.x);
+        int dy = Mathf.Abs(a.y - b.y);
 
-        foreach (var a in selected)
+        // 上下左右のみ許可する場合 (今の設定)
+        // return (dx + dy) == 1; 
+
+        // 斜めも許可する場合（こちらの方が操作感がスムーズになります）
+        return dx <= 1 && dy <= 1;
+    }
+
+    void DrawSelectionLine()
+    {
+        if (lineRenderer == null) return;
+
+        if (selected.Count < 1)
         {
-            if (a.type == AtomType.Mg) mg++;
-            if (a.type == AtomType.O) o++;
+            lineRenderer.positionCount = 0;
+            return;
         }
 
-        if (mg == 2 && o == 2)
+        lineRenderer.positionCount = selected.Count;
+        for (int i = 0; i < selected.Count; i++)
         {
-            DoReaction();
-        }
-        else
-        {
-            ClearSelection();
+            // 玉の少し手前(Z-0.5)に線を引く
+            Vector3 pos = selected[i].transform.position;
+            pos.z -= 0.5f;
+            lineRenderer.SetPosition(i, pos);
         }
     }
 
     void ClearSelection()
     {
-        foreach (var a in selected)
+        foreach (var b in selected)
         {
-            if (a != null) a.Deselect();
+            if (b != null) b.Deselect();
         }
         selected.Clear();
     }
 
-    void DoReaction()
+    void CheckReaction()
     {
-        Vector3 center = Vector3.zero;
+        int mgCount = 0;
+        int oCount = 0;
 
-        foreach (var a in selected)
+        foreach (var b in selected)
         {
-            center += a.transform.position;
-            Destroy(a.gameObject);
+            if (b.type == AtomType.Mg) mgCount++;
+            if (b.type == AtomType.O) oCount++;
         }
 
-        center /= selected.Count;
-
-        for (int i = 0; i < 2; i++)
+        // 2Mg + O2 (合計4つ) の判定
+        if (mgCount == 2 && oCount == 2 && selected.Count == 4)
         {
-            Instantiate(mgOPrefab, center + Random.insideUnitSphere * 0.3f, Quaternion.identity);
+            foreach (var b in selected)
+            {
+                // グリッド配列内の参照をクリア
+                GridSpawner.Instance.grid[b.x, b.y] = null;
+                Destroy(b.gameObject);
+            }
+            Debug.Log("化学反応成功: 2Mg + O2 -> 2MgO");
         }
-
-        selected.Clear();
     }
 }
