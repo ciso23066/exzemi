@@ -370,7 +370,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36cf790da2216c34483c44e16e259315, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GridSpawner
-  width: 8
+  width: 5
   height: 25
   spacing: 1.1
   gridOffset: {x: -3, y: 0, z: 0}
