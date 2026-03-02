@@ -184,7 +184,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: f07df9d956d5b63459024cb8bbd8d4cf, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -295,7 +295,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: f07df9d956d5b63459024cb8bbd8d4cf, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -370,7 +370,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36cf790da2216c34483c44e16e259315, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GridSpawner
-  width: 8
+  width: 5
   height: 25
   spacing: 1.1
   gridOffset: {x: -3, y: 0, z: 0}
@@ -565,6 +565,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SelectionManager
   mainCamera: {fileID: 1942252736}
   lineRenderer: {fileID: 942600557}
+  reactionEffectPrefab: {fileID: 5451181767844362841, guid: 10394bfeefb8db14288f6272a526e37a, type: 3}
 --- !u!120 &942600557
 LineRenderer:
   serializedVersion: 2
@@ -591,7 +592,7 @@ LineRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 2100000, guid: f2b8e6c22c78d71439f1ffa68443b63f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -740,7 +741,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: f07df9d956d5b63459024cb8bbd8d4cf, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -815,7 +816,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7f9d0974d3ed4b45a094b0316b53b68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyManager
-  mgOPrefab: {fileID: 4694637951142926298, guid: 097d49819c3da0642bd275b4243d7fac, type: 3}
+  mgOPrefab: {fileID: 1177568615311415706, guid: 097d49819c3da0642bd275b4243d7fac, type: 3}
   interval: 5
 --- !u!4 &1160389379
 Transform:
@@ -999,7 +1000,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: f07df9d956d5b63459024cb8bbd8d4cf, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1079,8 +1080,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -860, y: -515}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchoredPosition: {x: -747, y: -454}
+  m_SizeDelta: {x: 300, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1273414656
 MonoBehaviour:
@@ -1129,8 +1130,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 50
+  m_fontSizeBase: 50
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -1327,7 +1328,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 86268df5c8de12648a40188b54929f27, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1423,7 +1424,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62b2c33088c5aa74ea6a5c94a1d7e8cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
-  timeLimit: 120
+  timeLimit: 30
   timerText: {fileID: 1273414656}
 --- !u!4 &1862056834
 Transform:
@@ -1477,7 +1478,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_BackGroundColor: {r: 0.17478816, g: 0.32253826, b: 0.554717, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
