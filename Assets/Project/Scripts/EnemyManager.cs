@@ -18,7 +18,7 @@ public class EnemyManager : MonoBehaviour
         {
             yield return new WaitForSeconds(interval);
 
-            AtomBlock[] atoms = FindObjectsOfType<AtomBlock>();
+            AtomBlock[] atoms = Object.FindObjectsByType<AtomBlock>(FindObjectsSortMode.None);
 
             // Mg + O ‚ðƒ‰ƒ“ƒ_ƒ€‚É1‘g‘I‚Ô
             AtomBlock mg1 = null, mg2 = null, o1 = null, o2 = null;
@@ -53,6 +53,10 @@ public class EnemyManager : MonoBehaviour
                 for (int i = 0; i < 2; i++)
                 {
                     Instantiate(mgOPrefab, center + Random.insideUnitSphere * 0.3f, Quaternion.identity);
+                    if (GameManager.Instance != null)
+                    {
+                        GameManager.Instance.AddEnemyReaction();
+                    }
                 }
             }
         }
